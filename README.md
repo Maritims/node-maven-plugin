@@ -10,8 +10,9 @@ Maven plugin for running yarn commands.
             <artifactId>yarn-maven-plugin</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <configuration>
-                <path>node</path>
                 <install>true</install>
+                <command>build</command>
+                <path>node</path>
             </configuration>
             <executions>
                 <execution>
