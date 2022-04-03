@@ -14,7 +14,7 @@ import java.io.IOException;
 
 import static java.lang.ProcessBuilder.Redirect.INHERIT;
 
-@Mojo(name = "run", defaultPhase = LifecyclePhase.COMPILE)
+@Mojo(name = "run", defaultPhase = LifecyclePhase.INSTALL)
 public class YarnRunMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     MavenProject project;
