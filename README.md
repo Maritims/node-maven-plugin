@@ -40,3 +40,6 @@ Maven plugin for running yarn commands.
 
 ## Install yarn packages and run yarn command
 `mvn com.github.maritims:yarn-maven-plugin:<version>:run -Dpath=<path> -Dinstall=true`
+
+## Define output directory for yarn build
+How you define the output directory for your yarn build depends on the bundling software you decide to use. You typically want the yarn build to put the file(s) somewhere in src/main/webapp, or a sub-directory.
