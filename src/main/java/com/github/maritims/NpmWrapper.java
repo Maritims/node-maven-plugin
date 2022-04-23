@@ -17,7 +17,7 @@ public class NpmWrapper extends NodeWrapper {
      * @return Returns the path to the npm client JavaScript file.
      */
     private String getNpmCliJs() {
-        return Paths.get(nodeDirectory, "lib", "node_modules", "npm", "bin", "npm-cli.js").toString();
+        return Paths.get(nodeDirectory, "lib", "node_modules", "npm", "bin", "npm-cli.js").toAbsolutePath().toString();
     }
 
     /**

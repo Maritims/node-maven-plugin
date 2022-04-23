@@ -23,7 +23,7 @@ abstract public class NodeWrapper {
      * @return Returns the absolute path to the node executable on the filesystem.
      */
     protected String getNodeExe() {
-        return Paths.get(nodeDirectory, "bin", "node").toString();
+        return Paths.get(nodeDirectory, "bin", "node").toAbsolutePath().toString();
     }
 
     /**

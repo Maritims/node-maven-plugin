@@ -53,12 +53,12 @@ public class NodeInstaller {
      */
     public boolean download() throws IOException {
         if(StringUtils.isNotBlank(downloadDirectory)) {
-            log.info(downloadDirectory + " does not exist. Attempting to create it.");
+            log.info("The specified download directory '" + downloadDirectory + "' does not exist. Attempting to create it.");
             Files.createDirectories(Paths.get(downloadDirectory));
         }
 
         if(Files.exists(getDownloadTargetPath())) {
-            log.info(getDownloadTargetPath() + " already exists. Skipping download.");
+            log.info("The file '" + getDownloadTargetPath() + "' already exists. Skipping download.");
             return true;
         }
 
