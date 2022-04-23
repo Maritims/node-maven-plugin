@@ -21,7 +21,7 @@ import java.nio.file.StandardCopyOption;
 /**
  * Responsible for installing Node.
  */
-public class NodeInstaller implements Installer {
+public class NodeInstaller {
     private static final Logger log = LoggerFactory.getLogger(NodeInstaller.class);
 
     private final String downloadDirectory;
