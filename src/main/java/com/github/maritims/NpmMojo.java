@@ -11,7 +11,7 @@ import org.apache.maven.project.MavenProject;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-@Mojo(name = "node", defaultPhase = LifecyclePhase.INSTALL)
+@Mojo(name = "npm", defaultPhase = LifecyclePhase.INSTALL)
 public class NpmMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     MavenProject project;
@@ -19,22 +19,43 @@ public class NpmMojo extends AbstractMojo {
     @Parameter(property = "nodePath", required = true)
     String nodePath;
 
-    @Parameter(property = "path", required = true)
-    String path;
+    @Parameter(property = "major", required = true)
+    int major;
 
-    @Parameter(property = "command")
-    String command;
+    @Parameter(property = "minor", required = true)
+    int minor;
 
-    @Parameter(property = "install")
-    boolean install = false;
+    @Parameter(property = "patch", required = true)
+    int patch;
+
+    @Parameter(property = "sourceCodePath", required = true)
+    String sourceCodePath;
+
+    @Parameter(property = "install", required = true)
+    boolean install;
+
+    @Parameter(property = "script", required = true)
+    String script;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
-        NpmWrapper npm = new NpmWrapper(Paths.get(project.getBasedir().getAbsolutePath(), "src", "main", path, "package.json").toString(), Paths.get(nodePath, "bin", "npm").toString());
+        NodeInstaller nodeInstaller = new NodeInstaller(nodePath, nodePath, major, minor, patch);
+        String nodeInstallationDirectory;
+        try {
+            nodeInstaller.download();
+            nodeInstallationDirectory = nodeInstaller.extract();
+        } catch (IOException e) {
+            throw new MojoExecutionException(e);
+        }
+
+        NpmWrapper npm = new NpmWrapper(
+                nodeInstallationDirectory,
+                Paths.get(project.getBasedir().getAbsolutePath(), "src", "main", sourceCodePath).toString()
+        );
         try {
             if(install) npm.install();
-            else npm.run(command);
+            npm.run(script);
         } catch (IOException | InterruptedException e) {
-            throw new MojoExecutionException(e);
+            throw new RuntimeException(e);
         }
     }
 }

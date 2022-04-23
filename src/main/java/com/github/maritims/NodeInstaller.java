@@ -73,10 +73,10 @@ public class NodeInstaller {
 
     /***
      * Extracts the specified version of Node in {@link this#extractionDirectory}.
-     * @return A boolean value indicating whether the extraction succeeded.
+     * @return The installation directory if the operation is successful, null if not.
      * @throws IOException Thrown in case something goes wrong during the extraction process.
      */
-    public boolean extract() throws IOException {
+    public String extract() throws IOException {
         TarArchiveInputStream tarArchiveInputStream = new TarArchiveInputStream(new GzipCompressorInputStream(Files.newInputStream(Paths.get(getDownloadTargetPath().toString()))));
         TarArchiveEntry tarEntry = tarArchiveInputStream.getNextTarEntry();
         String destinationDirectory = new File(extractionDirectory).getCanonicalPath();
@@ -88,17 +88,17 @@ public class NodeInstaller {
             if(tarEntry.isDirectory()) {
                 if(!file.exists() && !file.mkdirs()) {
                     log.error("Unable to create directory: " + path + ". Aborting.");
-                    return false;
+                    return null;
                 }
             } else if(tarEntry.isFile()) {
                 if(!file.exists() && !file.createNewFile()) {
                     log.error("Unable to create file: " + path + ". Aborting.");
-                    return false;
+                    return null;
                 }
 
                 if(!file.setExecutable((tarEntry.getMode() & 0100) > 0)) {
                     log.error("Unable to mark file as executable: " + path + ". Aborting.");
-                    return false;
+                    return null;
                 }
 
                 OutputStream os = Files.newOutputStream(file.toPath());
@@ -110,6 +110,6 @@ public class NodeInstaller {
         }
 
         IOUtils.closeQuietly(tarArchiveInputStream);
-        return true;
+        return Paths.get(extractionDirectory, "node-v" + major + "." + minor + "." + patch + "-linux-x64").toString();
     }
 }

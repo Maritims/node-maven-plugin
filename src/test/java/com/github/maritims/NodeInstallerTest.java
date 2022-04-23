@@ -1,5 +1,6 @@
 package com.github.maritims;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -47,9 +48,9 @@ class NodeInstallerTest {
         NodeInstaller sut = new NodeInstaller(downloadDirectory, extractionDirectory, major, minor, patch);
 
         // act
-        boolean success = sut.extract();
+        String installationDirectory = sut.extract();
 
         // assert
-        assertTrue(success);
+        assertTrue(StringUtils.isNotBlank(installationDirectory));
     }
 }

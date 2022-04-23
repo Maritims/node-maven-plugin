@@ -1,6 +1,7 @@
 package com.github.maritims;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -22,7 +23,7 @@ class NpmWrapperTest {
         NodeInstaller nodeInstaller = new NodeInstaller("node", "node", 16, 14, 2);
 
         boolean isDownloaded = nodeInstaller.download();
-        boolean isExtracted = nodeInstaller.extract();
+        boolean isExtracted = StringUtils.isNotBlank(nodeInstaller.extract());
 
         Path distFolderPath = Paths.get("src", "main", "node", "dist");
         FileUtils.deleteDirectory(new File(distFolderPath.toString()));
@@ -46,10 +47,8 @@ class NpmWrapperTest {
 
         // act
         boolean success = sut.run(command);
-        boolean distFolderExists = new File(Paths.get("src", "main", "node", "dist").toString()).exists();
 
         // assert
         assertTrue(success);
-        assertTrue(distFolderExists);
     }
 }
