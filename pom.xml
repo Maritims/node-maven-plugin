@@ -29,7 +29,7 @@
     <repository>
       <id>github</id>
       <name>${project.artifactId}</name>
-      <url>https://maven.pkg.github.com/Maritims/node-maven-plugin</url>
+      <url>https://maven.pkg.github.com/maritims/node-maven-plugin</url>
     </repository>
   </distributionManagement>
 
