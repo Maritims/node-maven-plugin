@@ -1,3 +1,5 @@
+[![Java CI with Maven](https://github.com/Maritims/node-maven-plugin/actions/workflows/maven.yml/badge.svg)](https://github.com/Maritims/node-maven-plugin/actions/workflows/maven.yml)
+
 # node-maven-plugin
 Maven plugin for running node commands.
 
