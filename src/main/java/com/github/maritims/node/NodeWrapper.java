@@ -1,5 +1,6 @@
 package com.github.maritims.node;
 
+import com.github.maritims.PackageJson;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
@@ -48,6 +49,12 @@ public abstract class NodeWrapper {
 
     protected NodePaths getNodePaths() {
         return new NodePaths(nodeConfiguration.getExtractionDirectory().resolve(getVersionString()));
+    }
+
+    private PackageJson packageJson;
+    public PackageJson getPackageJson() throws IOException {
+        if(packageJson == null) packageJson = PackageJson.get(projectSourceCodeDirectory);
+        return packageJson;
     }
 
     public boolean download() throws IOException {

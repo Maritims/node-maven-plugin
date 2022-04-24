@@ -2,6 +2,8 @@ package com.github.maritims;
 
 import com.github.maritims.node.NodeConfiguration;
 import com.github.maritims.node.NodeWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +14,8 @@ import java.nio.file.Paths;
  * Responsible for running npm commands.
  */
 public class NpmWrapper extends NodeWrapper {
+    private static final Logger log = LoggerFactory.getLogger(NpmWrapper.class);
+
     public NpmWrapper(NodeConfiguration nodeConfiguration, String projectSourceCodeDirectory) {
         super(nodeConfiguration, projectSourceCodeDirectory);
     }
@@ -39,7 +43,11 @@ public class NpmWrapper extends NodeWrapper {
     }
 
     public boolean runScript(String script) throws IOException, InterruptedException {
-        if(!PackageJson.get(projectSourceCodeDirectory).getScripts().containsKey(script)) throw new IllegalArgumentException(script + " is not a valid script in package.json");
+        if(!getPackageJson().getScripts().containsKey(script)) {
+            log.error(script + " is not a valid script in package.json");
+            return false;
+        }
+
         return doSystemCall(new ProcessBuilder(getNpmCliJs().toAbsolutePath().toString(), "run", script)
                 .directory(new File(projectSourceCodeDirectory))
                 .inheritIO()) == 0;
