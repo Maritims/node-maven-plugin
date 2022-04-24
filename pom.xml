@@ -25,6 +25,14 @@
     <developerConnection>scm:git:git@github.com:Maritims/${project.artifactId}.git</developerConnection>
   </scm>
 
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>${project.artifactId}</name>
+      <url>https://maven.pkg.github.com/Maritims/node-maven-plugin</url>
+    </repository>
+  </distributionManagement>
+
   <build>
     <plugins>
       <plugin>
