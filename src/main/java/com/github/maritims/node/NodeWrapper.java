@@ -70,15 +70,20 @@ public abstract class NodeWrapper {
         return true;
     }
 
-    public Path extract() {
+    public boolean extract() {
         TarArchiveInputStream tarArchiveInputStream;
+        if(!Files.exists(getDownloadFilePath())) {
+            log.error("File " + getDownloadFilePath() + " does not exist");
+            return false;
+        }
+
         try {
             InputStream is = Files.newInputStream(getDownloadFilePath());
             GzipCompressorInputStream gz = new GzipCompressorInputStream(is);
             tarArchiveInputStream = new TarArchiveInputStream(gz);
         } catch (IOException e) {
             log.error("Unable to get input stream for archive file", e);
-            return null;
+            return false;
         }
 
         TarArchiveEntry tarEntry;
@@ -86,7 +91,7 @@ public abstract class NodeWrapper {
             tarEntry = tarArchiveInputStream.getNextTarEntry();
         } catch (IOException e) {
             log.error("Unable to get next entry in archive", e);
-            return null;
+            return false;
         }
 
         String destinationDirectory;
@@ -94,7 +99,7 @@ public abstract class NodeWrapper {
             destinationDirectory = new File(nodeConfiguration.getExtractionDirectory().toString()).getCanonicalPath();
         } catch (IOException e) {
             log.error("Unable to get canonical path for extraction destination", e);
-            return null;
+            return false;
         }
 
         while(tarEntry != null) {
@@ -103,23 +108,23 @@ public abstract class NodeWrapper {
 
             if(tarEntry.isDirectory() && !file.exists() && !file.mkdirs()) {
                 log.error("Unable to create directory: " + path + ". Aborting.");
-                return null;
+                return false;
             }
 
             if(tarEntry.isFile()) {
                 try {
                     if(!file.exists() && !file.createNewFile()) {
                         log.error("Unable to create file: " + path + ". Aborting.");
-                        return null;
+                        return false;
                     }
                 } catch (IOException e) {
                     log.error("Unable to create file from archive entry", e);
-                    return null;
+                    return false;
                 }
 
                 if(!file.setExecutable((tarEntry.getMode() & 0100) > 0)) {
                     log.error("Unable to mark file as executable: " + path + ". Aborting.");
-                    return null;
+                    return false;
                 }
 
                 OutputStream os;
@@ -127,14 +132,14 @@ public abstract class NodeWrapper {
                     os = Files.newOutputStream(file.toPath());
                 } catch (IOException e) {
                     log.error("Unable to create output stream for file " + file.getAbsolutePath());
-                    return null;
+                    return false;
                 }
 
                 try {
                     IOUtils.copy(tarArchiveInputStream, os);
                 } catch (IOException e) {
                     log.error("Unable to copy content from archive entry to file input stream", e);
-                    return null;
+                    return false;
                 }
 
                 IOUtils.closeQuietly(os);
@@ -144,12 +149,12 @@ public abstract class NodeWrapper {
                 tarEntry = tarArchiveInputStream.getNextTarEntry();
             } catch (IOException e) {
                 log.error("Unable to move to next archive entry", e);
-                return null;
+                return false;
             }
         }
 
         IOUtils.closeQuietly(tarArchiveInputStream);
-        return nodeConfiguration.getExtractionDirectory().resolve(getVersionString());
+        return Files.exists(nodeConfiguration.getExtractionDirectory().resolve(getVersionString()));
     }
 
     /**

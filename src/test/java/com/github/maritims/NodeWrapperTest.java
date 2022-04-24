@@ -64,9 +64,9 @@ class NodeWrapperTest {
         };
 
         // act
-        Path installationDirectory = sut.extract();
+        boolean success = sut.extract();
 
         // assert
-        assertTrue(Files.exists(installationDirectory));
+        assertTrue(success);
     }
 }
