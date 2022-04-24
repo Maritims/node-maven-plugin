@@ -1,8 +1,6 @@
 package com.github.maritims;
 
 import com.github.maritims.node.NodeConfiguration;
-import org.apache.commons.io.FileUtils;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -12,24 +10,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
-class NpmWrapperTest {
-    static boolean isDistFolderDeleted = false;
-
-    @BeforeAll
-    static void beforeAll() throws IOException {
-        Path distFolderPath = Paths.get("src", "main", "node", "dist");
-        FileUtils.deleteDirectory(new File(distFolderPath.toString()));
-
-        isDistFolderDeleted = !new File(distFolderPath.toString()).exists();
-    }
-
+class NpmWrapperTest extends AbstractNodeWrapperTest {
     @ParameterizedTest
     @CsvSource({ "install", "build" })
     public void run(String command) throws IOException, InterruptedException {
         // assume
-        assumeTrue(isDistFolderDeleted, "The dist folder was not deleted");
+        assumeFalse(new File(Paths.get("src", "main", "node", "dist").toString()).exists(), "The dist folder was not deleted");
 
         // arrange
         Path node = Paths.get("node");
