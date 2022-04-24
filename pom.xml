@@ -1,10 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.maritims</groupId>
   <artifactId>node-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
-  <version>1.0.0</version>
+  <version>0.0.1-SNAPSHOT</version>
 
   <name>${project.artifactId}</name>
   <description>A Maven plugin for running node commands.</description>
@@ -22,7 +23,6 @@
     <url>https://github.com/Maritims/${project.artifactId}</url>
     <connection>scm:git:git://github.com/Maritims/${project.artifactId}.git</connection>
     <developerConnection>scm:git:git@github.com:Maritims/${project.artifactId}.git</developerConnection>
-    <tag>node-maven-plugin-1.0.0</tag>
   </scm>
 
   <distributionManagement>
@@ -54,7 +54,7 @@
         <version>3.0.0-M5</version>
         <configuration>
           <!-- Activate the use of TCP to transmit events to the plugin -->
-          <forkNode implementation="org.apache.maven.plugin.surefire.extensions.SurefireForkNodeFactory" />
+          <forkNode implementation="org.apache.maven.plugin.surefire.extensions.SurefireForkNodeFactory"/>
         </configuration>
       </plugin>
       <plugin>
