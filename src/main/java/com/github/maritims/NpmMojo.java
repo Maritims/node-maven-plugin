@@ -1,5 +1,6 @@
 package com.github.maritims;
 
+import com.github.maritims.node.NodeConfiguration;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -16,41 +17,33 @@ public class NpmMojo extends AbstractMojo {
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
     MavenProject project;
 
-    @Parameter(property = "nodePath", required = true)
+    @Parameter(property = "nodePath", required = true, defaultValue = "node")
     String nodePath;
 
-    @Parameter(property = "major", required = true)
+    @Parameter(property = "major", required = true, defaultValue = "16")
     int major;
 
-    @Parameter(property = "minor", required = true)
+    @Parameter(property = "minor", required = true, defaultValue = "14")
     int minor;
 
-    @Parameter(property = "patch", required = true)
+    @Parameter(property = "patch", required = true, defaultValue = "2")
     int patch;
 
-    @Parameter(property = "sourceCodePath", required = true)
-    String sourceCodePath;
+    @Parameter(property = "sourceCodeDirectoryName", required = true)
+    String sourceCodeDirectoryName;
 
-    @Parameter(property = "install", required = true)
+    @Parameter(property = "install", required = true, defaultValue = "false")
     boolean install;
 
     @Parameter(property = "script", required = true)
     String script;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
-        NodeInstaller nodeInstaller = new NodeInstaller(nodePath, nodePath, major, minor, patch);
-        String nodeInstallationDirectory;
-        try {
-            nodeInstaller.download();
-            nodeInstallationDirectory = nodeInstaller.extract();
-        } catch (IOException e) {
-            throw new MojoExecutionException(e);
-        }
-
         NpmWrapper npm = new NpmWrapper(
-                nodeInstallationDirectory,
-                Paths.get(project.getBasedir().getAbsolutePath(), "src", "main", sourceCodePath).toString()
+                new NodeConfiguration(Paths.get(nodePath), Paths.get(nodePath), major, minor, patch),
+                Paths.get(project.getBasedir().getAbsolutePath(), "src", "main", sourceCodeDirectoryName).toString()
         );
+
         try {
             if(install) npm.install();
             npm.run(script);

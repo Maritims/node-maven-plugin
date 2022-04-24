@@ -1,7 +1,7 @@
 package com.github.maritims;
 
+import com.github.maritims.node.NodeConfiguration;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -15,33 +15,26 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 class NpmWrapperTest {
-    static boolean isNodeInstalled = false;
     static boolean isDistFolderDeleted = false;
 
     @BeforeAll
     static void beforeAll() throws IOException {
-        NodeInstaller nodeInstaller = new NodeInstaller("node", "node", 16, 14, 2);
-
-        boolean isDownloaded = nodeInstaller.download();
-        boolean isExtracted = StringUtils.isNotBlank(nodeInstaller.extract());
-
         Path distFolderPath = Paths.get("src", "main", "node", "dist");
         FileUtils.deleteDirectory(new File(distFolderPath.toString()));
 
         isDistFolderDeleted = !new File(distFolderPath.toString()).exists();
-        isNodeInstalled = isDownloaded && isExtracted;
     }
 
     @ParameterizedTest
     @CsvSource({ "install", "build" })
     public void run(String command) throws IOException, InterruptedException {
         // assume
-        assumeTrue(isNodeInstalled, "Node is not installed");
         assumeTrue(isDistFolderDeleted, "The dist folder was not deleted");
 
         // arrange
+        Path node = Paths.get("node");
         NpmWrapper sut = new NpmWrapper(
-                Paths.get("node", "node-v16.14.2-linux-x64").toAbsolutePath().toString(),
+                new NodeConfiguration(node, node, 16, 14, 2),
                 Paths.get("src", "main", "node").toAbsolutePath().toString()
         );
 

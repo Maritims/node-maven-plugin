@@ -1,23 +1,27 @@
 package com.github.maritims;
 
+import com.github.maritims.node.NodeConfiguration;
+import com.github.maritims.node.NodeWrapper;
+
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
  * Responsible for running npm commands.
  */
 public class NpmWrapper extends NodeWrapper {
-    public NpmWrapper(String nodeDirectory, String sourceCodeDirectory) {
-        super(nodeDirectory, sourceCodeDirectory);
+    public NpmWrapper(NodeConfiguration nodeConfiguration, String projectSourceCodeDirectory) {
+        super(nodeConfiguration, projectSourceCodeDirectory);
     }
 
     /**
      * Path to the npm client JavaScript file.
      * @return Returns the path to the npm client JavaScript file.
      */
-    private String getNpmCliJs() {
-        return Paths.get(nodeDirectory, "lib", "node_modules", "npm", "bin", "npm-cli.js").toAbsolutePath().toString();
+    private Path getNpmCliJs() {
+        return getNodePaths().getNodeModule("npm").resolve(Paths.get("bin", "npm-cli.js"));
     }
 
     /**
@@ -25,8 +29,8 @@ public class NpmWrapper extends NodeWrapper {
      * @return A boolean indicating whether the install command was executed successfully.
      */
     public boolean install() throws IOException, InterruptedException {
-        return new ProcessBuilder(getNodeExe(), getNpmCliJs(), "install")
-                .directory(new File(sourceCodeDirectory))
+        return new ProcessBuilder(getNpmCliJs().toAbsolutePath().toString(), "install")
+                .directory(new File(projectSourceCodeDirectory))
                 .inheritIO()
                 .start()
                 .waitFor() == 0;
@@ -34,11 +38,14 @@ public class NpmWrapper extends NodeWrapper {
 
     @Override
     public boolean run(String script) throws IOException, InterruptedException {
-        if("install".equalsIgnoreCase(script)) return install();
-        if(!PackageJson.get(sourceCodeDirectory).getScripts().containsKey(script)) throw new IllegalArgumentException(script + " is not a valid script in package.json");
+        download();
+        extract();
 
-        return new ProcessBuilder(getNodeExe(), getNpmCliJs(), "run", script)
-                .directory(new File(sourceCodeDirectory))
+        if("install".equalsIgnoreCase(script)) return install();
+        if(!PackageJson.get(projectSourceCodeDirectory).getScripts().containsKey(script)) throw new IllegalArgumentException(script + " is not a valid script in package.json");
+
+        return new ProcessBuilder(getNpmCliJs().toAbsolutePath().toString(), "run", script)
+                .directory(new File(projectSourceCodeDirectory))
                 .inheritIO()
                 .start()
                 .waitFor() == 0;
