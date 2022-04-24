@@ -73,9 +73,11 @@ public abstract class NodeWrapper {
     public boolean extract() {
         TarArchiveInputStream tarArchiveInputStream;
         if(!Files.exists(getDownloadFilePath())) {
-            log.error("File " + getDownloadFilePath() + " does not exist");
+            log.error("File " + getDownloadFilePath() + " does not exist. Skipping extraction.");
             return false;
         }
+
+        log.info("Extracting " + getDownloadFilePath());
 
         try {
             InputStream is = Files.newInputStream(getDownloadFilePath());
@@ -110,6 +112,8 @@ public abstract class NodeWrapper {
                 log.error("Unable to create directory: " + path + ". Aborting.");
                 return false;
             }
+
+            log.info("Extracting " + file.getAbsolutePath());
 
             if(tarEntry.isFile()) {
                 try {
