@@ -7,10 +7,22 @@
   <packaging>maven-plugin</packaging>
   <version>0.0.1-SNAPSHOT</version>
 
+  <name>${project.artifactId}</name>
+  <description>A Maven plugin for running node commands.</description>
+  <url>https://github.com/Maritims/${project.artifactId}</url>
+
+  <licenses>
+    <license>
+      <name>GNU General Public License v3.0</name>
+      <url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
   <scm>
-    <url>https://github.com/Maritims/${artifactId}</url>
-    <connection>scm:git:git://github.com/Maritims/${artifactId}.git</connection>
-    <developerConnection>scm:git:git@github.com:Maritims/${artifactId}.git</developerConnection>
+    <url>https://github.com/Maritims/${project.artifactId}</url>
+    <connection>scm:git:git://github.com/Maritims/${project.artifactId}.git</connection>
+    <developerConnection>scm:git:git@github.com:Maritims/${project.artifactId}.git</developerConnection>
   </scm>
 
   <build>
@@ -44,9 +56,6 @@
       </plugin>
     </plugins>
   </build>
-
-  <name>${project.artifactId}</name>
-  <url>http://maven.apache.org</url>
 
   <properties>
     <maven.compiler.target>1.8</maven.compiler.target>
