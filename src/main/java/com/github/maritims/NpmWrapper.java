@@ -24,16 +24,25 @@ public class NpmWrapper extends NodeWrapper {
         return getNodePaths().getNodeModule("npm").resolve(Paths.get("bin", "npm-cli.js"));
     }
 
+    protected int doSystemCall(ProcessBuilder pb) throws IOException, InterruptedException {
+        return pb.start().waitFor();
+    }
+
     /**
      * Run the npm install command.
      * @return A boolean indicating whether the install command was executed successfully.
      */
     public boolean install() throws IOException, InterruptedException {
-        return new ProcessBuilder(getNpmCliJs().toAbsolutePath().toString(), "install")
+        return doSystemCall(new ProcessBuilder(getNpmCliJs().toAbsolutePath().toString(), "install")
                 .directory(new File(projectSourceCodeDirectory))
-                .inheritIO()
-                .start()
-                .waitFor() == 0;
+                .inheritIO()) == 0;
+    }
+
+    public boolean runScript(String script) throws IOException, InterruptedException {
+        if(!PackageJson.get(projectSourceCodeDirectory).getScripts().containsKey(script)) throw new IllegalArgumentException(script + " is not a valid script in package.json");
+        return doSystemCall(new ProcessBuilder(getNpmCliJs().toAbsolutePath().toString(), "run", script)
+                .directory(new File(projectSourceCodeDirectory))
+                .inheritIO()) == 0;
     }
 
     @Override
@@ -41,13 +50,6 @@ public class NpmWrapper extends NodeWrapper {
         download();
         extract();
 
-        if("install".equalsIgnoreCase(script)) return install();
-        if(!PackageJson.get(projectSourceCodeDirectory).getScripts().containsKey(script)) throw new IllegalArgumentException(script + " is not a valid script in package.json");
-
-        return new ProcessBuilder(getNpmCliJs().toAbsolutePath().toString(), "run", script)
-                .directory(new File(projectSourceCodeDirectory))
-                .inheritIO()
-                .start()
-                .waitFor() == 0;
+        return "install".equalsIgnoreCase(script) ? install() : runScript(script);
     }
 }
