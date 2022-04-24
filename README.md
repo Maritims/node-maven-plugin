@@ -1,14 +1,26 @@
 [![Java CI with Maven](https://github.com/Maritims/node-maven-plugin/actions/workflows/maven.yml/badge.svg)](https://github.com/Maritims/node-maven-plugin/actions/workflows/maven.yml)
 
 # node-maven-plugin
-Maven plugin for running node commands.
+Maven plugin for running node commands. This plugin will download and extract [Node.js](https://nodejs.dev/) in the directory you specify to allow you to run Node.js commands such as `npm`.  
 
 ## Configuration
-Add the the plugin groupId to the `<pluginGroups />` section of settings.xml:
+Add the plugin groupId to the `<pluginGroups />` section of settings.xml. This tells Maven where to look when resolving `mvn` plugin commands and lets you type `mvn node:npm` rather than the long form.
+See [Maven - Guide to Developing Java Plugins](https://maven.apache.org/guides/plugin/guide-java-plugin-development.html) for more details.
 ```xml
 <pluginGroups>
     <pluginGroup>com.github.maritims</pluginGroup>
 </pluginGroups>
+```
+
+Add the following snippet to the `<repositories />` section of settings.xml. This tells Maven to search in this repository in addition to the rest of your configured repositories when installing packages:
+```xml
+<repository>
+    <id>github</id>
+    <url>https://maven.pkg.github.com/maritims/node-maven-plugin</url>
+    <snapshots>
+        <enabled>true</enabled>
+    </snapshots>
+</repository>
 ```
 
 Add the plugin configuration to the pom.xml in your Maven project:
