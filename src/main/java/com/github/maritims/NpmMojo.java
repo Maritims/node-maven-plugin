@@ -44,11 +44,7 @@ public class NpmMojo extends AbstractMojo {
                 Paths.get(project.getBasedir().getAbsolutePath(), "src", "main", sourceCodeDirectoryName).toString()
         );
 
-        try {
-            if(install) npm.install();
-            npm.run(script);
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        if(install) npm.install();
+        npm.run(script);
     }
 }
