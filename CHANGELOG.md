@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Added javadoc, source and gpg plugins
+
+### Changed
+- Group id was changed from com.github.maritims to io.github.maritims
+- CI now uses `mvn verify` instead of `mvn package`
+
+## [1.0.1]
+### Added
 - Npm mojo.
 - Npm wrapper.
 - Node installer.

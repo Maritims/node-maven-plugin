@@ -1,6 +1,6 @@
-package com.github.maritims.node;
+package io.github.maritims.node;
 
-import com.github.maritims.PackageJson;
+import io.github.maritims.PackageJson;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
@@ -52,12 +52,18 @@ public abstract class NodeWrapper {
     }
 
     private PackageJson packageJson;
-    public PackageJson getPackageJson() throws IOException {
-        if(packageJson == null) packageJson = PackageJson.get(projectSourceCodeDirectory);
+    public PackageJson getPackageJson() {
+        if(packageJson == null) {
+            try {
+                packageJson = PackageJson.get(projectSourceCodeDirectory);
+            } catch (IOException e) {
+                log.error("Unable to retrieve content from package.json", e);
+            }
+        }
         return packageJson;
     }
 
-    public boolean download() throws IOException {
+    public boolean download() {
         if(Files.exists(getDownloadFilePath())) {
             log.info("The file '" + getDownloadFilePath() + "' already exists. Skipping download.");
             return true;
@@ -65,13 +71,33 @@ public abstract class NodeWrapper {
 
         if(!Files.exists(nodeConfiguration.getDownloadDirectory())) {
             log.info("The specified download directory '" + nodeConfiguration.getDownloadDirectory() + "' does not exist. Attempting to create it.");
-            Files.createDirectories(nodeConfiguration.getDownloadDirectory());
+
+            try {
+                Files.createDirectories(nodeConfiguration.getDownloadDirectory());
+            } catch (IOException e) {
+                log.error("Unable to create directory " + nodeConfiguration.getDownloadDirectory(), e);
+                return false;
+            }
         }
 
         String url = "https://nodejs.org/dist/v" + nodeConfiguration.getMajorVersion() + "." + nodeConfiguration.getMinorVersion() + "." + nodeConfiguration.getPatchVersion() + "/" + getFileName();
         log.info("Downloading " + url);
-        InputStream is = new URL(url).openStream();
-        Files.copy(is, getDownloadFilePath(), StandardCopyOption.REPLACE_EXISTING);
+        InputStream is;
+
+        try {
+            is = new URL(url).openStream();
+        } catch (IOException e) {
+            log.error("Unable to open stream from URL " + url, e);
+            return false;
+        }
+
+        try {
+            Files.copy(is, getDownloadFilePath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            log.error("Unable to replace file " + getDownloadFilePath(), e);
+            return false;
+        }
+
         log.info("Successfully downloaded " + url + " to " + getDownloadFilePath());
 
         return true;
@@ -173,5 +199,5 @@ public abstract class NodeWrapper {
      * @param script The script to execute.
      * @return A boolean indicating whether the script was executed successfully.
      */
-    public abstract boolean run(String script) throws IOException, InterruptedException;
+    public abstract boolean run(String script);
 }

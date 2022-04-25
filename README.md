@@ -8,7 +8,7 @@ Add the plugin groupId to the `<pluginGroups />` section of settings.xml. This t
 See [Maven - Guide to Developing Java Plugins](https://maven.apache.org/guides/plugin/guide-java-plugin-development.html) for more details.
 ```xml
 <pluginGroups>
-    <pluginGroup>com.github.maritims</pluginGroup>
+    <pluginGroup>io.github.maritims</pluginGroup>
 </pluginGroups>
 ```
 
@@ -28,7 +28,7 @@ Add the plugin configuration to the pom.xml in your Maven project:
 <build>
     <plugins>
         <plugin>
-            <groupId>com.github.maritims</groupId>
+            <groupId>io.github.maritims</groupId>
             <artifactId>node-maven-plugin</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <configuration>
