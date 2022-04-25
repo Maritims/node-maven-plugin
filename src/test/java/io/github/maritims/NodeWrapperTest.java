@@ -1,7 +1,7 @@
-package com.github.maritims;
+package io.github.maritims;
 
-import com.github.maritims.node.NodeConfiguration;
-import com.github.maritims.node.NodeWrapper;
+import io.github.maritims.node.NodeConfiguration;
+import io.github.maritims.node.NodeWrapper;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

@@ -1,4 +1,4 @@
-package com.github.maritims;
+package io.github.maritims;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;

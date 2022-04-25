@@ -1,6 +1,6 @@
-package com.github.maritims.node;
+package io.github.maritims.node;
 
-import com.github.maritims.PackageJson;
+import io.github.maritims.PackageJson;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;

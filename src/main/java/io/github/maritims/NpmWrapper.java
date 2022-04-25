@@ -1,7 +1,7 @@
-package com.github.maritims;
+package io.github.maritims;
 
-import com.github.maritims.node.NodeConfiguration;
-import com.github.maritims.node.NodeWrapper;
+import io.github.maritims.node.NodeConfiguration;
+import io.github.maritims.node.NodeWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

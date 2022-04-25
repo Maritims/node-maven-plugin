@@ -1,11 +1,12 @@
-package com.github.maritims;
+package io.github.maritims;
 
-import com.github.maritims.node.NodeConfiguration;
+import io.github.maritims.node.NodeConfiguration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -38,7 +39,7 @@ class NpmWrapperTest extends AbstractNodeWrapperTest {
     public void runInstall() throws IOException, InterruptedException {
         // arrange
         Path node = Paths.get("node");
-        NpmWrapper sut = spy(new NpmWrapper(
+        NpmWrapper sut = Mockito.spy(new NpmWrapper(
                 new NodeConfiguration(node, node, 16, 14, 2),
                 Paths.get("src", "main", "node").toAbsolutePath().toString()
         ));
@@ -59,7 +60,7 @@ class NpmWrapperTest extends AbstractNodeWrapperTest {
     public void runScript(String script, boolean shouldRun) throws IOException, InterruptedException {
         // arrange
         Path node = Paths.get("node");
-        NpmWrapper sut = spy(new NpmWrapper(
+        NpmWrapper sut = Mockito.spy(new NpmWrapper(
                 new NodeConfiguration(node, node, 16, 14, 2),
                 Paths.get("src", "main", "node").toAbsolutePath().toString()
         ));

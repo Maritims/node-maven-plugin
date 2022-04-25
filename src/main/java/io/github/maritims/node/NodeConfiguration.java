@@ -1,4 +1,4 @@
-package com.github.maritims.node;
+package io.github.maritims.node;
 
 import java.nio.file.Path;
 

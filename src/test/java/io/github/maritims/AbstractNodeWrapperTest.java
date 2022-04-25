@@ -1,4 +1,4 @@
-package com.github.maritims;
+package io.github.maritims;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
