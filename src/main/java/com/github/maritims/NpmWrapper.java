@@ -28,21 +28,26 @@ public class NpmWrapper extends NodeWrapper {
         return getNodePaths().getNodeModule("npm").resolve(Paths.get("bin", "npm-cli.js"));
     }
 
-    protected int doSystemCall(ProcessBuilder pb) throws IOException, InterruptedException {
-        return pb.start().waitFor();
+    protected int doSystemCall(ProcessBuilder pb) {
+        try {
+            return pb.start().waitFor();
+        } catch (InterruptedException | IOException e) {
+            log.error("Unable to execute system call", e);
+            return -1;
+        }
     }
 
     /**
      * Run the npm install command.
      * @return A boolean indicating whether the install command was executed successfully.
      */
-    public boolean install() throws IOException, InterruptedException {
+    public boolean install() {
         return doSystemCall(new ProcessBuilder(getNpmCliJs().toAbsolutePath().toString(), "install")
                 .directory(new File(projectSourceCodeDirectory))
                 .inheritIO()) == 0;
     }
 
-    public boolean runScript(String script) throws IOException, InterruptedException {
+    public boolean runScript(String script) {
         if(!getPackageJson().getScripts().containsKey(script)) {
             log.error(script + " is not a valid script in package.json");
             return false;
@@ -54,7 +59,7 @@ public class NpmWrapper extends NodeWrapper {
     }
 
     @Override
-    public boolean run(String script) throws IOException, InterruptedException {
+    public boolean run(String script) {
         download();
         extract();
 
