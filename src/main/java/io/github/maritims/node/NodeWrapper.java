@@ -5,7 +5,6 @@ import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.commons.compress.utils.IOUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -132,7 +131,7 @@ public abstract class NodeWrapper {
 
         String destinationDirectory;
         try {
-            destinationDirectory = new File(FilenameUtils.getName(nodeConfiguration.getExtractionDirectory().toString())).getCanonicalPath();
+            destinationDirectory = nodeConfiguration.getExtractionDirectory().toFile().getCanonicalPath();
         } catch (IOException e) {
             log.error("Unable to get canonical path for extraction destination", e);
             return false;
@@ -140,7 +139,7 @@ public abstract class NodeWrapper {
 
         while(tarEntry != null) {
             Path path = Paths.get(destinationDirectory, tarEntry.getName());
-            File file = new File(FilenameUtils.getName(path.toString()));
+            File file = path.toFile();
 
             if(tarEntry.isDirectory() && !file.exists() && !file.mkdirs()) {
                 log.error("Unable to create directory: " + path + ". Aborting.");
