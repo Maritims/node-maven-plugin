@@ -1,0 +1,15 @@
+{
+  "name": "node-maven-plugin-node-test",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon",
+    "build": "mkdir dist && cp index.js dist/."
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
