@@ -8,10 +8,7 @@ import org.apache.commons.compress.utils.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -54,11 +51,7 @@ public abstract class NodeWrapper {
     private PackageJson packageJson;
     public PackageJson getPackageJson() {
         if(packageJson == null) {
-            try {
-                packageJson = PackageJson.get(projectSourceCodeDirectory);
-            } catch (IOException e) {
-                log.error("Unable to retrieve content from package.json", e);
-            }
+            packageJson = PackageJson.get(projectSourceCodeDirectory);
         }
         return packageJson;
     }
