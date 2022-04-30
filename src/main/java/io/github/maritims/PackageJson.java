@@ -25,14 +25,14 @@ public class PackageJson {
 
         if(!file.exists()) {
             log.error(packageJsonPath + " does not exist.");
-            return null;
+            return new PackageJson();
         }
 
         try {
             return objectMapper.readValue(file, PackageJson.class);
         } catch (IOException e) {
             log.error("Unable to deserialize contents of " + packageJsonPath, e);
-            return null;
+            return new PackageJson();
         }
     }
 

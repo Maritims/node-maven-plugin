@@ -50,9 +50,7 @@ public abstract class NodeWrapper {
 
     private PackageJson packageJson;
     public PackageJson getPackageJson() {
-        if(packageJson == null) {
-            packageJson = PackageJson.get(projectSourceCodeDirectory);
-        }
+        if(packageJson == null) packageJson = PackageJson.get(projectSourceCodeDirectory);
         return packageJson;
     }
 
