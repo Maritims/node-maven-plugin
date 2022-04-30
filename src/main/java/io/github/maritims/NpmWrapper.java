@@ -53,7 +53,9 @@ public class NpmWrapper extends NodeWrapper {
             return false;
         }
 
-        return doSystemCall(new ProcessBuilder(getNpmCliJs().toAbsolutePath().toString(), "run", script)
+        ProcessBuilder pb = new ProcessBuilder(getNpmCliJs().toAbsolutePath().toString(), "run", script);
+        pb.environment().put("PATH", pb.environment().get("PATH") + ":" + getNodePaths().getBin().toAbsolutePath());
+        return doSystemCall(pb
                 .directory(new File(projectSourceCodeDirectory))
                 .inheritIO()) == 0;
     }

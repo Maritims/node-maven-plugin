@@ -57,7 +57,7 @@ class NpmWrapperTest extends AbstractNodeWrapperTest {
 
     @ParameterizedTest(name = "Execute npm run {0} and expect {1}")
     @MethodSource
-    public void runScript(String script, boolean shouldRun) throws IOException, InterruptedException {
+    public void runScript(String script, boolean shouldRun) {
         // arrange
         Path node = Paths.get("node");
         NpmWrapper sut = Mockito.spy(new NpmWrapper(

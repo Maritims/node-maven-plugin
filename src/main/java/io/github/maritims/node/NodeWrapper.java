@@ -29,7 +29,7 @@ public abstract class NodeWrapper {
         this.projectSourceCodeDirectory = projectSourceCodeDirectory;
     }
 
-    private String getVersionString() {
+    protected String getVersionString() {
         return "node-v" + nodeConfiguration.getMajorVersion() + "." + nodeConfiguration.getMinorVersion() + "." + nodeConfiguration.getPatchVersion() + "-linux-x64";
     }
 
@@ -107,6 +107,11 @@ public abstract class NodeWrapper {
         TarArchiveInputStream tarArchiveInputStream;
         if(!Files.exists(getDownloadFilePath())) {
             log.error("File " + getDownloadFilePath() + " does not exist. Skipping extraction.");
+            return false;
+        }
+
+        if(nodeConfiguration.getExtractionDirectory().resolve(Paths.get(getVersionString())).toFile().exists()) {
+            log.info("Archive has already been extracted. Skipping extraction.");
             return false;
         }
 
