@@ -1,4 +1,5 @@
 [![Java CI with Maven](https://github.com/Maritims/node-maven-plugin/actions/workflows/maven.yml/badge.svg)](https://github.com/Maritims/node-maven-plugin/actions/workflows/maven.yml)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.maritims/node-maven-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/io.github.maritims/node-maven-plugin)
 
 # node-maven-plugin
 Maven plugin for running node commands. This plugin will download and extract [Node.js](https://nodejs.dev/) in the directory you specify to allow you to run Node.js commands such as `npm`. See [node-maven-plugin-poc-webapp](https://github.com/Maritims/node-maven-plugin-poc-webapp) for sample usage.  
