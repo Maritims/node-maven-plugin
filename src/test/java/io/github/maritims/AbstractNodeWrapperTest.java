@@ -13,6 +13,6 @@ abstract public class AbstractNodeWrapperTest {
     @AfterEach
     void beforeAndAfter() throws IOException {
         FileUtils.deleteDirectory(new File(Paths.get("node").toString()));
-        FileUtils.deleteDirectory(new File(Paths.get("src", "main", "node", "dist").toString()));
+        FileUtils.deleteDirectory(new File(Paths.get("src", "test", "resources", "node", "dist").toString()));
     }
 }

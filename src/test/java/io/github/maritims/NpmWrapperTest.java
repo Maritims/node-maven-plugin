@@ -41,7 +41,7 @@ class NpmWrapperTest extends AbstractNodeWrapperTest {
         Path node = Paths.get("node");
         NpmWrapper sut = Mockito.spy(new NpmWrapper(
                 new NodeConfiguration(node, node, 16, 14, 2),
-                Paths.get("src", "main", "node").toAbsolutePath().toString()
+                Paths.get("src", "test", "resources", "node").toAbsolutePath().toString()
         ));
         doReturn(true).when(sut).download();
         doReturn(true).when(sut).extract(false);
@@ -62,7 +62,7 @@ class NpmWrapperTest extends AbstractNodeWrapperTest {
         Path node = Paths.get("node");
         NpmWrapper sut = Mockito.spy(new NpmWrapper(
                 new NodeConfiguration(node, node, 16, 14, 2),
-                Paths.get("src", "main", "node").toAbsolutePath().toString()
+                Paths.get("src", "test", "resources", "node").toAbsolutePath().toString()
         ));
 
         PackageJson packageJson = mock(PackageJson.class);

@@ -18,7 +18,7 @@ public class NpmWrapperIntegrationTest {
     @BeforeAll
     static void beforeAll() {
         try {
-            FileUtils.deleteDirectory(Paths.get("src", "main", "node", "dist").toFile());
+            FileUtils.deleteDirectory(Paths.get("src", "test", "resources", "node", "dist").toFile());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -37,7 +37,7 @@ public class NpmWrapperIntegrationTest {
         Path node = Paths.get("node");
         NpmWrapper sut = new NpmWrapper(
                 new NodeConfiguration(node, node, 16, 14, 2),
-                Paths.get("src", "main", "node").toAbsolutePath().toString()
+                Paths.get("src", "test", "resources", "node").toAbsolutePath().toString()
         );
 
         // act
