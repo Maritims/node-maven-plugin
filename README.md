@@ -12,17 +12,6 @@ See [Maven - Guide to Developing Java Plugins](https://maven.apache.org/guides/p
 </pluginGroups>
 ```
 
-Add the following snippet to the `<repositories />` section of settings.xml. This tells Maven to search in this repository in addition to the rest of your configured repositories when installing packages:
-```xml
-<repository>
-    <id>github</id>
-    <url>https://maven.pkg.github.com/maritims/node-maven-plugin</url>
-    <snapshots>
-        <enabled>true</enabled>
-    </snapshots>
-</repository>
-```
-
 Add the plugin configuration to the pom.xml in your Maven project:
 ```xml
 <build>
@@ -30,7 +19,7 @@ Add the plugin configuration to the pom.xml in your Maven project:
         <plugin>
             <groupId>io.github.maritims</groupId>
             <artifactId>node-maven-plugin</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0.3</version>
             <configuration>
                 <install>true</install>
                 <script>build</script>
@@ -66,4 +55,4 @@ Add the plugin configuration to the pom.xml in your Maven project:
 `mvn node:npm -DsourceCodeDirectoryName=<sourceCodeDirectoryName> -Dscript <script>`
 
 ## Define output directory for npm build
-How you define the output directory for your yarn build depends on the bundling software you decide to use. You typically want the yarn build to put the file(s) somewhere in src/main/webapp, or a sub-directory.
+How you define the output directory for your npm build depends on the bundling software you decide to use. You typically want the npm build to put the file(s) somewhere in src/main/webapp, or a sub-directory.
