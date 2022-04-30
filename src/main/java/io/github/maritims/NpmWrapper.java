@@ -42,12 +42,15 @@ public class NpmWrapper extends NodeWrapper {
      * @return A boolean indicating whether the install command was executed successfully.
      */
     public boolean install() {
+        download();
+        extract(false);
+
         return doSystemCall(new ProcessBuilder(getNpmCliJs().toAbsolutePath().toString(), "install")
                 .directory(new File(projectSourceCodeDirectory))
                 .inheritIO()) == 0;
     }
 
-    public boolean runScript(String script) {
+    protected boolean runScript(String script) {
         if(!getPackageJson().getScripts().containsKey(script)) {
             log.error(script + " is not a valid script in package.json");
             return false;
