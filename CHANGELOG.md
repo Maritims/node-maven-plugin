@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added node bin directory to ProcessBuilder path environment variable.
 - Created Dockerfile to test project without pollution from host system.
+- `NodeWrapper.extract` now takes a `boolean` argument `verbose` which currently only dictates whether to verbosely log archive extraction.
 
 ### Changed
 - Extraction is now skipped if the target directory already exists.

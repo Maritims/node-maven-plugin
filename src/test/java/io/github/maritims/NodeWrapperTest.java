@@ -35,7 +35,7 @@ class NodeWrapperTest extends AbstractNodeWrapperTest {
 
         // act
         boolean isDownloaded = sut.download();
-        boolean isExtracted = sut.extract();
+        boolean isExtracted = sut.extract(false);
 
         // assert
         assertTrue(isDownloaded);

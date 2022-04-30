@@ -63,7 +63,7 @@ public class NpmWrapper extends NodeWrapper {
     @Override
     public boolean run(String script) {
         download();
-        extract();
+        extract(false);
 
         return "install".equalsIgnoreCase(script) ? install() : runScript(script);
     }

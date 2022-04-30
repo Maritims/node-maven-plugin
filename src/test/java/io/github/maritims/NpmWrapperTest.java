@@ -44,7 +44,7 @@ class NpmWrapperTest extends AbstractNodeWrapperTest {
                 Paths.get("src", "main", "node").toAbsolutePath().toString()
         ));
         doReturn(true).when(sut).download();
-        doReturn(true).when(sut).extract();
+        doReturn(true).when(sut).extract(false);
         doReturn(0).when(sut).doSystemCall(any(ProcessBuilder.class));
 
         // act
@@ -71,7 +71,7 @@ class NpmWrapperTest extends AbstractNodeWrapperTest {
         when(packageJson.getScripts()).thenReturn(scripts);
 
         doReturn(true).when(sut).download();
-        doReturn(true).when(sut).extract();
+        doReturn(true).when(sut).extract(false);
         doReturn(0).when(sut).doSystemCall(any(ProcessBuilder.class));
         doReturn(packageJson).when(sut).getPackageJson();
 

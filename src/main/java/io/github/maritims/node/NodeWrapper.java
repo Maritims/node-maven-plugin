@@ -103,7 +103,7 @@ public abstract class NodeWrapper {
         return true;
     }
 
-    public boolean extract() {
+    public boolean extract(boolean verbose) {
         TarArchiveInputStream tarArchiveInputStream;
         if(!Files.exists(getDownloadFilePath())) {
             log.error("File " + getDownloadFilePath() + " does not exist. Skipping extraction.");
@@ -151,7 +151,9 @@ public abstract class NodeWrapper {
                 return false;
             }
 
-            log.info("Extracting " + file.getAbsolutePath());
+            if(verbose) {
+                log.info("Extracting " + file.getAbsolutePath());
+            }
 
             if(tarEntry.isFile()) {
                 try {
