@@ -20,7 +20,7 @@ Add the plugin configuration to the pom.xml in your Maven project:
         <plugin>
             <groupId>io.github.maritims</groupId>
             <artifactId>node-maven-plugin</artifactId>
-            <version>1.0.3</version>
+            <version>1.1.0</version>
             <configuration>
                 <install>true</install>
                 <script>build</script>
@@ -39,15 +39,16 @@ Add the plugin configuration to the pom.xml in your Maven project:
 ```
 
 ## Options
-| Option                  | Type    | Value                    | Default value | Explanation                                                                                                                 |
-|-------------------------|---------|--------------------------|---------------|-----------------------------------------------------------------------------------------------------------------------------|
-| nodePath                | string  | node                     | node          | Path to directory within project base directory where node should be downloaded and installed.                              |
-| major                   | int     | 16                       | 16            | Major version of node.                                                                                                      |
-| minor                   | int     | 14                       | 14            | Minor version of node.                                                                                                      |
-| patch                   | int     | 2                        | 2             | Patch version of node.                                                                                                      |
-| sourceCodeDirectoryName | string  | svelte, node, vue, react | N/A           | Path to directory within the src directory containing package.json. The directory should live alongside the java directory. | 
-| install                 | boolean | true, false              | N/A           | Indicates whether packages should be installed.                                                                             |
-| script                  | string  | build                    | N/A           | Indicates which script to run. The script must be present in package.json.                                                  |
+| Option                  | Type    | Value                               | Default value | Explanation                                                                                                                 |
+|-------------------------|---------|-------------------------------------|---------------|-----------------------------------------------------------------------------------------------------------------------------|
+| nodePath                | string  | node                                | node          | Path to directory within project base directory where node should be downloaded and installed.                              |
+| major                   | int     | 16                                  | 16            | Major version of node.                                                                                                      |
+| minor                   | int     | 14                                  | 14            | Minor version of node.                                                                                                      |
+| patch                   | int     | 2                                   | 2             | Patch version of node.                                                                                                      |
+| sourceCodeDirectoryName | string  | svelte, node, vue, react            | N/A           | Path to directory within the src directory containing package.json. The directory should live alongside the java directory. | 
+| install                 | boolean | true, false                         | N/A           | Indicates whether packages should be installed.                                                                             |
+| script                  | string  | build                               | N/A           | Indicates which script to run. The script must be present in package.json.                                                  |
+| environmentVariables    | string  | FOO_BAR=foo BAR_BAZ=bar BAZ_BAR=baz | N/A           | Environment variables for the npm build process.                                                                            |
 
 ## Install npm packages
 `mvn node:npm -DsourceCodeDirectoryName=<sourceCodeDirectoryName> -Dinstall`
