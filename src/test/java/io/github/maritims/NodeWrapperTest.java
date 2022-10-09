@@ -28,7 +28,7 @@ class NodeWrapperTest extends AbstractNodeWrapperTest {
         // arrange
         NodeWrapper sut = new NodeWrapper(nodeConfiguration, null) {
             @Override
-            public boolean run(String script) {
+            public boolean run(String script, String environmentVariables) {
                 return false;
             }
         };

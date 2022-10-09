@@ -2,6 +2,7 @@ package io.github.maritims;
 
 import io.github.maritims.node.NodeConfiguration;
 import io.github.maritims.node.NodeWrapper;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,6 +10,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Responsible for running npm commands.
@@ -50,7 +55,7 @@ public class NpmWrapper extends NodeWrapper {
                 .inheritIO()) == 0;
     }
 
-    protected boolean runScript(String script) {
+    protected boolean runScript(String script, Map<String, String> environmentVariables) {
         if(!getPackageJson().getScripts().containsKey(script)) {
             log.error(script + " is not a valid script in package.json");
             return false;
@@ -58,16 +63,34 @@ public class NpmWrapper extends NodeWrapper {
 
         ProcessBuilder pb = new ProcessBuilder(getNpmCliJs().toAbsolutePath().toString(), "run", script);
         pb.environment().put("PATH", pb.environment().get("PATH") + ":" + getNodePaths().getBin().toAbsolutePath());
+        for(Map.Entry<String, String> environmentVariable : environmentVariables.entrySet()) {
+            pb.environment().put(environmentVariable.getKey(), environmentVariable.getValue());
+        }
         return doSystemCall(pb
                 .directory(new File(projectSourceCodeDirectory))
                 .inheritIO()) == 0;
     }
 
+    protected Map<String, String> getEnvironmentVariables(String environmentVariables) {
+        Map<String, String> map = new HashMap<>();
+        if(StringUtils.isBlank(environmentVariables)) {
+            return map;
+        }
+
+        Pattern pattern = Pattern.compile("([A-Z]+_[A-Z0-9]+)=([a-zA-Z0-9,-]+)\\s?");
+        Matcher matcher = pattern.matcher(environmentVariables);
+        while(matcher.find()) {
+            map.put(matcher.group(1), matcher.group(2));
+        }
+
+        return map;
+    }
+
     @Override
-    public boolean run(String script) {
+    public boolean run(String script, String environmentVariables) {
         download();
         extract(false);
 
-        return "install".equalsIgnoreCase(script) ? install() : runScript(script);
+        return "install".equalsIgnoreCase(script) ? install() : runScript(script, getEnvironmentVariables(environmentVariables));
     }
 }

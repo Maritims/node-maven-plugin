@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- `NpmMojo` now accepts the property `environmentVariables` in the format `FOO_BAR=helloworld BAR_BAZ=loremipsum` and so on, just like you would prefix an `npm` command on the command line.
+
 ## [1.0.3] - 2022-24-30
 ### Added
 - Added node bin directory to ProcessBuilder path environment variable.
@@ -34,3 +38,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 - Yarn mojo.
+
+[Unreleased]: https://github.com/Maritims/node-maven-plugin/compare/node-maven-plugin-1.0.3...HEAD
+[1.0.3]: https://github.com/Maritims/node-maven-plugin/compare/node-maven-plugin-1.0.2...node-maven-plugin-1.0.3
+[1.0.2]: https://github.com/Maritims/node-maven-plugin/compare/node-maven-plugin-1.0.1...node-maven-plugin-1.0.2
+[1.0.1]: https://github.com/Maritims/node-maven-plugin/compare/node-maven-plugin-1.0.0...node-maven-plugin-1.0.1
+[1.0.0]: https://github.com/Maritims/node-maven-plugin/releases/tag/node-maven-plugin-1.0.0

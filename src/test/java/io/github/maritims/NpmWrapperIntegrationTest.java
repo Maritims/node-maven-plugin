@@ -41,7 +41,7 @@ public class NpmWrapperIntegrationTest {
         );
 
         // act
-        boolean wasRun = sut.run(script);
+        boolean wasRun = sut.run(script, null);
 
         // assert
         assertEquals(shouldRun, wasRun);

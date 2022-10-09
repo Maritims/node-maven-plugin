@@ -8,7 +8,10 @@ import org.apache.commons.compress.utils.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -195,7 +198,8 @@ public abstract class NodeWrapper {
     /**
      * Executes the specified script.
      * @param script The script to execute.
+     * @param environmentVariables Environment variables as provided from the command line.
      * @return A boolean indicating whether the script was executed successfully.
      */
-    public abstract boolean run(String script);
+    public abstract boolean run(String script, String environmentVariables);
 }

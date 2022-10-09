@@ -34,6 +34,12 @@ class NpmWrapperTest extends AbstractNodeWrapperTest {
         );
     }
 
+    public static Stream<Arguments> getEnvironmentVariables() {
+        return Stream.of(
+                Arguments.arguments("ENV_VAR1=foo ENV_VAR2=bar ENV_VAR3=baz", 3)
+        );
+    }
+
     @Test
     @DisplayName("Run 'npm install' when script is 'install'")
     public void runInstall() throws IOException, InterruptedException {
@@ -48,7 +54,7 @@ class NpmWrapperTest extends AbstractNodeWrapperTest {
         doReturn(0).when(sut).doSystemCall(any(ProcessBuilder.class));
 
         // act
-        boolean success = sut.run("install");
+        boolean success = sut.run("install", null);
 
         // assert
         assertTrue(success);
@@ -76,10 +82,23 @@ class NpmWrapperTest extends AbstractNodeWrapperTest {
         doReturn(packageJson).when(sut).getPackageJson();
 
         // act
-        boolean wasRun = sut.run(script);
+        boolean wasRun = sut.run(script, null);
 
         // assert
         assertEquals(shouldRun, wasRun);
-        verify(sut, times(1)).run(script);
+        verify(sut, times(1)).run(script, null);
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    public void getEnvironmentVariables(String environmentVariables, int expectedCount) {
+        // arrange
+        NpmWrapper sut = new NpmWrapper(null, null);
+
+        // act
+        Map<String, String> map = sut.getEnvironmentVariables(environmentVariables);
+
+        // assert
+        assertEquals(expectedCount, map.size());
     }
 }

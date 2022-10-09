@@ -10,6 +10,10 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Mojo(name = "npm", defaultPhase = LifecyclePhase.INSTALL)
 public class NpmMojo extends AbstractMojo {
@@ -37,6 +41,9 @@ public class NpmMojo extends AbstractMojo {
     @Parameter(property = "script", required = true)
     String script;
 
+    @Parameter(property = "environmentVariables")
+    String environmentVariables;
+
     public void execute() throws MojoExecutionException, MojoFailureException {
         NpmWrapper npm = new NpmWrapper(
                 new NodeConfiguration(Paths.get(nodePath), Paths.get(nodePath), major, minor, patch),
@@ -44,6 +51,6 @@ public class NpmMojo extends AbstractMojo {
         );
 
         if(install) npm.install();
-        npm.run(script);
+        npm.run(script, environmentVariables);
     }
 }
